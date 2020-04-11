@@ -22,8 +22,6 @@
 		String name = l.getUsername();
 		
 		session = request.getSession(false);
-		String ass = "ass";
-	
 	%>
 
 	Session ID : <%= session.getAttribute("name") %>

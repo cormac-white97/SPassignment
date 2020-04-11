@@ -3,7 +3,6 @@ package SPassignment;
 import java.sql.*;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
 
 public class SQLConnection {
 	static String connectionString = "jdbc:mysql://localhost:3306/spassignment";
@@ -78,18 +77,8 @@ public class SQLConnection {
 	}
 
 	public void addNewUser(String name, String email, String password, String address) {
-		try {
-			Statement statement = connection.createStatement();
-			String sqlStatement = "INSERT INTO users(name, email, password,accountType, address) " + "values('" + name
-					+ "','" + email + "','" + password + "','customer','" + address + "');";
-			// insert the data
-
-			statement.executeUpdate(sqlStatement);
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		createAdmin c = new createAdmin();
+		c.Create(name, email, password, address);
 	}
 
 	public ArrayList<Items> getItems() {
@@ -140,4 +129,6 @@ public class SQLConnection {
 		}
 		return item;
 	}
+
+
 }
