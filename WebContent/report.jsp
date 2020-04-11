@@ -26,7 +26,13 @@
 	
 	%>
 
-	Session ID : <%= session.getAttribute("email") %>   <br/>
+	Session ID : <%= session.getAttribute("name") %>
+	<br>
+	
+	<%if(session.getAttribute("accountType").equals("admin")){
+		%>
+		<a href ="Admin.jsp">Admin</a>
+	<%}%>
 
 
 	<table id="productTable" align="center" cellpadding="5" cellspacing="5"

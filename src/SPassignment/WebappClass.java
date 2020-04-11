@@ -47,7 +47,12 @@ public class WebappClass extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-
+		
+		Users u = sql.getLoggedInDetails(request.getParameter("email")); 
+		
+		String dbName = u.getName();
+		String dbAccountType = u.getAccountType();
+		String address = u.getAddress();
 		
 		 boolean signin =
 		 sql.signIn(request.getParameter("email"),request.getParameter("password") );
@@ -55,6 +60,9 @@ public class WebappClass extends HttpServlet {
 		 if(signin == true) { 
 			 HttpSession session = request.getSession();
 			 session.setAttribute("email", request.getParameter("email"));
+			 session.setAttribute("name", dbName);
+			 session.setAttribute("accountType", dbAccountType);
+			 session.setAttribute("address", address);
 			 
 			 
 //			 PrintWriter writer = response.getWriter();

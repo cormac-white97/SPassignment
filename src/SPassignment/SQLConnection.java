@@ -3,6 +3,8 @@ package SPassignment;
 import java.sql.*;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 public class SQLConnection {
 	static String connectionString = "jdbc:mysql://localhost:3306/spassignment";
 	static String username = "root";
@@ -27,7 +29,7 @@ public class SQLConnection {
 		}
 	}
 
-	public void setLoggedInDetails(String email) {
+	public Users getLoggedInDetails(String email) {
 		try {
 			Statement command = connection.createStatement();
 			ResultSet data = command.executeQuery("SELECT * FROM users;");
@@ -48,9 +50,6 @@ public class SQLConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public Users getLoggedUser() {
 		return loggedUser;
 	}
 	
