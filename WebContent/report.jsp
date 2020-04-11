@@ -8,8 +8,6 @@
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<jsp:useBean id="demo" class="SPassignment.SQLConnection"
-	scope="session" />
 
 <html>
 <head>
@@ -22,10 +20,13 @@
 		ArrayList<Items> items = fb.getItems();
 		Landing l = new Landing();
 		String name = l.getUsername();
-		String test = "Tset";
+		
+		session = request.getSession(false);
+		String ass = "ass";
+	
 	%>
 
-	<h1>hi <%session.getAttribute("email");%></h1>
+	Session ID : <%= session.getAttribute("email") %>   <br/>
 
 
 	<table id="productTable" align="center" cellpadding="5" cellspacing="5"
