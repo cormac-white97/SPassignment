@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="SPassignment.SQLConnection"%>
+<%@ page import="SPassignment.ItemDAO"%>
 <%@ page import="SPassignment.Items"%>
 <%@ page import="SPassignment.Landing"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,12 +15,11 @@
 <body>
 
 </head>
-<body onLoad="document.forms[0].submit()">
+<body>
 	<%
-		SQLConnection fb = new SQLConnection();
-		ArrayList<Items> items = fb.getItems();
+		ItemDAO itemDao = new ItemDAO();
+		ArrayList<Items> items = itemDao.readAllItems();
 		Landing l = new Landing();
-		String name = l.getUsername();
 
 		session = request.getSession(false);
 	%>
@@ -37,10 +36,10 @@
   <tr class="header">
     <tr bgcolor="#A52A2A">
 			<td><b><button">SKU</button></b></td>
-			<td><b><button ">Name</button></b></td>
-			<td><b><button">Manufacturer</button></b></td>
-			<td><b><button">Price</button></b></td>
-			<td><b><button">Category</button></b></td>
+			<td><b>Name</b></td>
+			<td><b>Manufacturer</b></td>
+			<td><b>Price</b></td>
+			<td><b>Category</b></td>
 			<td><b>Image</b></td>
 		</tr>
   </tr>
@@ -57,12 +56,14 @@
 			<td><img
 				src="C:/Users/whitec/Desktop/spAssets/<%=items.get(i).getImagePath()%>"
 				style="width: 150px; height: 150px;"></td>
-				<td><button onclick="window.location.href = 'update.jsp?id=<%=items.get(i).getSku()%>';">Update Details</button></td>
+				<td><button onclick="window.location.href = 'updateProduct.jsp?id=<%=items.get(i).getSku()%>';">Update Details</button></td>
 		</tr>
 		<%
 			}
 		%>
 	</table>
+	
+	<a href ="addItem.jsp" class = "Button">Add an item.</a>
 	
 <script>
 function myFunction() {

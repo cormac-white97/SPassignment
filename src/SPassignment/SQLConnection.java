@@ -77,54 +77,6 @@ public class SQLConnection {
 	}
 
 
-	public ArrayList<Items> getItems() {
-		ArrayList<Items> items = new ArrayList<>();
-
-		try {
-			Statement command = connection.createStatement();
-			ResultSet data = command.executeQuery("SELECT * FROM items;");
-
-			while (data.next()) {
-				int dbSku = data.getInt("sku");
-				String dbName = data.getString("name");
-				String dbManu = data.getString("manufacturer");
-				double dbPrice = data.getDouble("price");
-				String dbCategory = data.getString("category");
-				String imagePath = data.getString("image_path");
-
-				Items i = new Items(dbSku, dbName, dbManu, dbPrice, dbCategory, imagePath);
-				items.add(i);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return items;
-	}
-
-	public Items getSingleItem(int id) {
-		Items item = null;
-		try {
-			Statement command = connection.createStatement();
-			ResultSet data = command.executeQuery("SELECT * FROM items WHERE sku = " + id + ";");
-			while (data.next()) {
-
-				int dbSku = data.getInt("sku");
-				String dbName = data.getString("name");
-				String dbManu = data.getString("manufacturer");
-				double dbPrice = data.getDouble("price");
-				String dbCategory = data.getString("category");
-				String imagePath = data.getString("image_path");
-
-				item = new Items(dbSku, dbName, dbManu, dbPrice, dbCategory, imagePath);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return item;
-	}
 
 
 }

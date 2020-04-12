@@ -6,13 +6,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class AdminDAO implements UserFactory {
+public class AdminDAO implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
 	String username = "root";
 	String pword = "SQ8wvP5d";
 	Connection connection = null;
 
 	public AdminDAO() {
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		try {
 			connection = DriverManager.getConnection(connectionString, username, pword);
@@ -24,7 +31,7 @@ public class AdminDAO implements UserFactory {
 	}
 
 	@Override
-	public void create(String name, String email, String password, String address) {
+	public void createUser(String name, String email, String password, String address) {
 
 		try {
 			Statement statement = connection.createStatement();
@@ -43,23 +50,61 @@ public class AdminDAO implements UserFactory {
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
+		
+		try {
+			Statement statement = connection.createStatement();
+			String sqlStatement = "DELETE FROM users where id = " + id + ";";
+
+			statement.executeUpdate(sqlStatement);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
-	public void update(int id) {
+	public void updateUser(int id, String name, String email, String address) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public Object readIndividual(int id) {
+	public Users readIndividual(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Users> readAll() {
+	public ArrayList<Users> readAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void createItem(String name, String manu, double price, String category, String image_path, int createdBy) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+
+	public void updateItem(int id, String name, String manu, double price, String category, String image_path) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+
+	public Items readItem(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+
+	public ArrayList<Items> readAllItems() {
 		// TODO Auto-generated method stub
 		return null;
 	}

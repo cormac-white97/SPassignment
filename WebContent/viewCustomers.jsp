@@ -19,7 +19,7 @@
 	<%
 		CustomerDAO cd = new CustomerDAO();
 
-		ArrayList<Users> items = cd.readAll();
+		ArrayList<Users> users = cd.readAll();
 
 		session = request.getSession(false);
 	%>
@@ -43,16 +43,16 @@
 		</tr>
 
 		<%
-			for (int i = 0; i < items.size(); i++) {
+			for (int i = 0; i < users.size(); i++) {
 		%>
 		<tr bgcolor="#DEB887">
 
-			<td><%=items.get(i).getId()%></td>
-			<td><a href=""><%=items.get(i).getName()%></a></td>
-			<td><%=items.get(i).getEmail()%></td>
-			<td><%=items.get(i).getAddress()%></td>
+			<td><%=users.get(i).getId()%></td>
+			<td><a href=""><%=users.get(i).getName()%></a></td>
+			<td><%=users.get(i).getEmail()%></td>
+			<td><%=users.get(i).getAddress()%></td>
 			<td><button
-					onclick="window.location.href = 'update.jsp?id=<%=items.get(i).getId()%>';">Update
+					onclick="window.location.href = 'updateProduct.jsp?id=<%=users.get(i).getId()%>';">Update
 					Details</button></td>
 
 		</tr>

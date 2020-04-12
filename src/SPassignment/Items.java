@@ -7,7 +7,9 @@ public class Items {
 	double price;
 	String category;
 	String imagePath;
-	public Items(int sku, String name, String manufacturer, double price, String category, String imagePath) {
+	String createdBy;
+	public Items(int sku, String name, String manufacturer, double price, String category, String imagePath,
+			String createdBy) {
 		super();
 		this.sku = sku;
 		this.name = name;
@@ -15,9 +17,8 @@ public class Items {
 		this.price = price;
 		this.category = category;
 		this.imagePath = imagePath;
+		this.createdBy = createdBy;
 	}
-	
-	
 	public int getSku() {
 		return sku;
 	}
@@ -54,6 +55,14 @@ public class Items {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	
 	
 	
 }
