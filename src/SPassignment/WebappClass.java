@@ -2,6 +2,7 @@ package SPassignment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -56,6 +57,8 @@ public class WebappClass extends HttpServlet {
 		
 		 boolean signin =
 		 sql.signIn(request.getParameter("email"),request.getParameter("password") );
+		 
+		  ArrayList<Items> cart = new ArrayList<>();
 		  
 		 if(signin == true) { 
 			 HttpSession session = request.getSession();
@@ -63,6 +66,7 @@ public class WebappClass extends HttpServlet {
 			 session.setAttribute("name", dbName);
 			 session.setAttribute("accountType", dbAccountType);
 			 session.setAttribute("address", address);
+			 session.setAttribute("cart", cart);
 			 
 			 
 //			 PrintWriter writer = response.getWriter();

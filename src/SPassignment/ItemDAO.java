@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 public class ItemDAO implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
 	String username = "root";
@@ -163,6 +165,14 @@ public class ItemDAO implements SqlFactory {
 		}
 
 		return items;
+	}
+	
+	public void updateCart(Items item, HttpSession session) {
+		ArrayList<Items> cart = (ArrayList<Items>) session.getAttribute("cart");
+		cart.add(item);
+		
+		session.removeAttribute("cart");
+		session.setAttribute("cart", cart);
 	}
 
 }

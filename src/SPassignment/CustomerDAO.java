@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 public class CustomerDAO implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
 	String username = "root";
@@ -124,5 +126,13 @@ public class CustomerDAO implements SqlFactory {
 	public Items readItem(int id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void updateCart(Items item, HttpSession session) {
+		ArrayList<Items> cart = (ArrayList<Items>) session.getAttribute("cart");
+		cart.add(item);
+		
+		session.removeAttribute("cart");
+		session.setAttribute("cart", cart);
 	}
 }
