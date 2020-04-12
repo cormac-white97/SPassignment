@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateAccount extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private SQLConnection sql = new SQLConnection();
+	private CustomerDAO c = new CustomerDAO();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -53,7 +53,7 @@ public class CreateAccount extends HttpServlet {
 		
 	
 		if(pWord.equals(confirm)) {
-					sql.addNewUser(name, email, pWord, address);
+					c.create(name, email, pWord, address);
 					response.sendRedirect(request.getContextPath() + "/index.jsp");
 		}
 

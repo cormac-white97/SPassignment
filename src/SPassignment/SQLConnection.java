@@ -76,10 +76,6 @@ public class SQLConnection {
 		return found;
 	}
 
-	public void addNewUser(String name, String email, String password, String address) {
-		createAdmin c = new createAdmin();
-		c.Create(name, email, password, address);
-	}
 
 	public ArrayList<Items> getItems() {
 		ArrayList<Items> items = new ArrayList<>();
