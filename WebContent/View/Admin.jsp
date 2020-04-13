@@ -2,9 +2,9 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="SPassignment.SQLConnection"%>
-<%@ page import="SPassignment.Items"%>
-<%@ page import="SPassignment.Landing"%>
+<%@ page import="Controllers.SQLConnection"%>
+<%@ page import="Models.Items"%>
+<%@ page import="Controllers.Landing"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -14,6 +14,6 @@
 </head>
 <body>
 	<a href="productSearch.jsp">View Item</a>
-	<a href="">View Customers</a>
+	<a href="viewCustomers.jsp">View Customers</a>
 </body>
 </html>

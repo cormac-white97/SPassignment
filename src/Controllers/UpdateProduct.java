@@ -1,4 +1,4 @@
-package SPassignment;
+package Controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Controllers.ItemDAO;
+
 /**
  * Servlet implementation class UpdateProduct
  */
-@WebServlet("/UpdateProduct")
+@WebServlet("/View/UpdateProduct")
 public class UpdateProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -47,9 +49,10 @@ public class UpdateProduct extends HttpServlet {
 		String manu = request.getParameter("manu");
 		double price = Double.parseDouble(request.getParameter("price"));
 		String category = request.getParameter("category");
+		int stock = Integer.parseInt(request.getParameter("stock"));
 		String image_path = request.getParameter("image");
 
-		i.updateItem(id, name, manu, price, category, image_path);
+		i.updateItem(id, name, manu, price, category, stock, image_path);
 
 		response.sendRedirect(request.getContextPath() + "/productSearch.jsp");
 

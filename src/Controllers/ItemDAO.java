@@ -1,4 +1,4 @@
-package SPassignment;
+package Controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
+
+import Models.Items;
+import Models.SqlFactory;
+import Models.Users;
 
 public class ItemDAO implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
@@ -40,14 +44,15 @@ public class ItemDAO implements SqlFactory {
 	}
 
 	@Override
-	public void createItem(String name, String manu, double price, String category, String image_path, int createdBy) {
+	public void createItem(String name, String manu, double price, String category, int stock, String image_path,
+			int createdBy) {
 		// TODO Auto-generated method stub
 
 		try {
 			Statement statement = connection.createStatement();
-			String sqlStatement = "INSERT INTO Items(name, manufacturer, price, category, image_path, createdBy) "
+			String sqlStatement = "INSERT INTO Items(name, manufacturer, price, category, image_path, createdBy, stock) "
 					+ "values('" + name + "','" + manu + "','" + price + "','" + category + "','" + image_path + "','"
-					+ createdBy + "');";
+					+ createdBy + "','" + stock + "');";
 			// insert the data
 
 			statement.executeUpdate(sqlStatement);
@@ -76,7 +81,8 @@ public class ItemDAO implements SqlFactory {
 	}
 
 	@Override
-	public void updateItem(int id, String name, String manu, double price, String category, String image_path) {
+	public void updateItem(int id, String name, String manu, double price, String category, int stock,
+			String image_path) {
 		// TODO Auto-generated method stub
 
 		try {
@@ -126,10 +132,11 @@ public class ItemDAO implements SqlFactory {
 				String dbManu = data.getString("manufacturer");
 				double dbPrice = data.getDouble("price");
 				String dbCategory = data.getString("category");
+				int dbStock = data.getInt("stock");
 				String imagePath = data.getString("image_path");
 				String createdBy = data.getString("createdBy");
 
-				item = new Items(dbSku, dbName, dbManu, dbPrice, dbCategory, imagePath, createdBy);
+				item = new Items(dbSku, dbName, dbManu, dbPrice, dbCategory, dbStock, imagePath, createdBy);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -153,10 +160,11 @@ public class ItemDAO implements SqlFactory {
 				String dbManu = data.getString("manufacturer");
 				double dbPrice = data.getDouble("price");
 				String dbCategory = data.getString("category");
+				int dbStock = data.getInt("stock");
 				String imagePath = data.getString("image_path");
 				String createdBy = data.getString("createdBy");
 
-				Items i = new Items(dbSku, dbName, dbManu, dbPrice, dbCategory, imagePath, createdBy);
+				Items i = new Items(dbSku, dbName, dbManu, dbPrice, dbCategory, dbStock, imagePath, createdBy);
 				items.add(i);
 			}
 		} catch (SQLException e) {
@@ -166,11 +174,11 @@ public class ItemDAO implements SqlFactory {
 
 		return items;
 	}
-	
+
 	public void updateCart(Items item, HttpSession session) {
 		ArrayList<Items> cart = (ArrayList<Items>) session.getAttribute("cart");
 		cart.add(item);
-		
+
 		session.removeAttribute("cart");
 		session.setAttribute("cart", cart);
 	}

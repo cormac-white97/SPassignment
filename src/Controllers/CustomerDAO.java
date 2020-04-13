@@ -1,4 +1,4 @@
-package SPassignment;
+package Controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
+
+import Models.Items;
+import Models.SqlFactory;
+import Models.Users;
 
 public class CustomerDAO implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
@@ -99,22 +103,29 @@ public class CustomerDAO implements SqlFactory {
 	@Override
 	public Users readIndividual(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		Users user = null;
+
+		try {
+			Statement command = connection.createStatement();
+			ResultSet data = command.executeQuery("SELECT * FROM users WHERE id = " + id + ";");
+
+			while (data.next()) {
+				int dbId = data.getInt("id");
+				String dbName = data.getString("name");
+				String dbEmail = data.getString("email");
+				String dbType = data.getString("accountType");
+				String dbAddress = data.getString("address");
+
+				user = new Users(dbId, dbName, dbEmail, dbType, dbAddress);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return user;
 	}
 
-
-
-	@Override
-	public void createItem(String name, String manu, double price, String category, String image_path, int createdBy) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateItem(int id, String name, String manu, double price, String category, String image_path) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public ArrayList<Items> readAllItems() {
@@ -134,5 +145,19 @@ public class CustomerDAO implements SqlFactory {
 		
 		session.removeAttribute("cart");
 		session.setAttribute("cart", cart);
+	}
+
+	@Override
+	public void createItem(String name, String manu, double price, String category, int stock, String image_path,
+			int createdBy) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateItem(int id, String name, String manu, double price, String category, int stock,
+			String image_path) {
+		// TODO Auto-generated method stub
+		
 	}
 }

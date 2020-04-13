@@ -2,9 +2,9 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="SPassignment.CustomerDAO"%>
-<%@ page import="SPassignment.Users"%>
-<%@ page import="SPassignment.Landing"%>
+<%@ page import="Controllers.CustomerDAO"%>
+<%@ page import="Models.Users"%>
+<%@ page import="Controllers.Landing"%>
 
 
 
@@ -19,7 +19,7 @@
 	<%
 		CustomerDAO cd = new CustomerDAO();
 
-		ArrayList<Users> users = cd.readAll();
+		ArrayList<Users> users = cd.readAllUsers();
 
 		session = request.getSession(false);
 	%>
@@ -52,7 +52,7 @@
 			<td><%=users.get(i).getEmail()%></td>
 			<td><%=users.get(i).getAddress()%></td>
 			<td><button
-					onclick="window.location.href = 'updateProduct.jsp?id=<%=users.get(i).getId()%>';">Update
+					onclick="window.location.href = 'updateCustomer.jsp?id=<%=users.get(i).getId()%>';">Update
 					Details</button></td>
 
 		</tr>

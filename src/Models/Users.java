@@ -1,4 +1,4 @@
-package SPassignment;
+package Models;
 
 public class Users {
 	int id;

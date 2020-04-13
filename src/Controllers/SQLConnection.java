@@ -1,7 +1,9 @@
-package SPassignment;
+package Controllers;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import Models.Users;
 
 
 public class SQLConnection {

@@ -1,10 +1,14 @@
-package SPassignment;
+package Controllers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import Models.Items;
+import Models.SqlFactory;
+import Models.Users;
 
 public class AdminDAO implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
@@ -83,14 +87,14 @@ public class AdminDAO implements SqlFactory {
 	}
 
 	@Override
-	public void createItem(String name, String manu, double price, String category, String image_path, int createdBy) {
+	public void createItem(String name, String manu, double price, String category,int stock, String image_path, int createdBy) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 
-	public void updateItem(int id, String name, String manu, double price, String category, String image_path) {
+	public void updateItem(int id, String name, String manu, double price, String category,int stock, String image_path) {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,4 +1,4 @@
-package SPassignment;
+package Models;
 
 public class Items {
 	int sku;
@@ -6,9 +6,10 @@ public class Items {
 	String manufacturer;
 	double price;
 	String category;
+	int stock;
 	String imagePath;
 	String createdBy;
-	public Items(int sku, String name, String manufacturer, double price, String category, String imagePath,
+	public Items(int sku, String name, String manufacturer, double price, String category, int stock, String imagePath,
 			String createdBy) {
 		super();
 		this.sku = sku;
@@ -16,6 +17,7 @@ public class Items {
 		this.manufacturer = manufacturer;
 		this.price = price;
 		this.category = category;
+		this.stock = stock;
 		this.imagePath = imagePath;
 		this.createdBy = createdBy;
 	}
@@ -49,6 +51,12 @@ public class Items {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 	public String getImagePath() {
 		return imagePath;
 	}
@@ -61,8 +69,7 @@ public class Items {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+	
+	
 
-	
-	
-	
 }

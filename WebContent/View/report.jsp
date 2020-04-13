@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="SPassignment.ItemDAO"%>
-<%@ page import="SPassignment.Items"%>
-<%@ page import="SPassignment.Landing"%>
+<%@ page import="Controllers.ItemDAO"%>
+<%@ page import="Models.Items"%>
+<%@ page import="Controllers.Landing"%>
 
 
 
@@ -12,16 +12,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Cart</title>
+<title>Products</title>
 </head>
 <body onLoad="document.forms[0].submit()">
 	<%
+		ItemDAO fb = new ItemDAO();
+		ArrayList<Items> items = fb.readAllItems();
+		Landing l = new Landing();
+		String name = l.getUsername();
+		
 		session = request.getSession(false);
-		ArrayList<Items> cart = (ArrayList<Items>) session.getAttribute("cart");
-
 	%>
 
-	<h1> <%= session.getAttribute("name") %>'s Cart </h1>
+	Session ID : <%= session.getAttribute("name") %>
 	<br>
 	
 	<%if(session.getAttribute("accountType").equals("admin")){
@@ -44,15 +47,15 @@
 			<td><b>Image</b></td>
 		</tr>
 
-	<%for (int i = 0; i < cart.size(); i++){ %>
+	<%for (int i = 0; i < items.size(); i++){ %>
 		<tr bgcolor="#DEB887">
 		
-			<td><%=cart.get(i).getSku()%></td>
-			<td><a href="viewProduct.jsp?id=<%=cart.get(i).getSku()%>"><%=cart.get(i).getName()%></a></td>
-			<td><%=cart.get(i).getManufacturer()%></td>
-			<td><%=cart.get(i).getPrice()%></td>
-			<td><%=cart.get(i).getCategory()%></td>
-			<td><img src="C:/Users/whitec/Desktop/spAssets/<%=cart.get(i).getImagePath() %>" style="width:150px;height:150px;"></td> 
+			<td><%=items.get(i).getSku()%></td>
+			<td><a href="viewProduct.jsp?id=<%=items.get(i).getSku()%>"><%=items.get(i).getName()%></a></td>
+			<td><%=items.get(i).getManufacturer()%></td>
+			<td><%=items.get(i).getPrice()%></td>
+			<td><%=items.get(i).getCategory()%></td>
+			<td><img src="C:/Users/whitec/Desktop/spAssets/<%=items.get(i).getImagePath() %>" style="width:150px;height:150px;"></td> 
 		</tr>
 <%}%>
 	</table>
