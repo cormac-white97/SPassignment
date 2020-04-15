@@ -88,8 +88,25 @@ public class ItemDAO implements SqlFactory {
 		try {
 			Statement statement = connection.createStatement();
 			String sqlStatement = "UPDATE items" + " SET name = '" + name + "' ,manufacturer = '" + manu
-					+ "', price = '" + price + "', category = '" + category + "', image_path = '" + image_path + "'"
-					+ " WHERE sku = " + id + ";";
+					+ "', price = '" + price + "', category = '" + category + "', image_path = '" + image_path
+					+ "', stock = '" + stock + "' WHERE sku = " + id + ";";
+
+			statement.executeUpdate(sqlStatement);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void updateStock(int id, int stock) {
+		// TODO Auto-generated method stub
+
+		try {
+			Statement statement = connection.createStatement();
+			String sqlStatement = "UPDATE items" + " SET stock = '" + stock
+					+ "' WHERE sku = " + id + ";";
 
 			statement.executeUpdate(sqlStatement);
 
@@ -181,6 +198,23 @@ public class ItemDAO implements SqlFactory {
 
 		session.removeAttribute("cart");
 		session.setAttribute("cart", cart);
+	}
+
+	public void createPurchase(Items item, int purchaserId) {
+		int itemId = item.getSku();
+		try {
+			Statement statement = connection.createStatement();
+			String sqlStatement = "INSERT INTO Orders(OrderNumber, PersonID) " + "values('" + itemId + "','"
+					+ purchaserId + "');";
+
+			statement.executeUpdate(sqlStatement);
+			int stock = item.getStock() - 1;
+			updateStock(itemId, stock);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

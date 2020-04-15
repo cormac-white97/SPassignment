@@ -32,6 +32,10 @@
 		<a href ="Admin.jsp">Admin</a>
 	<%}%>
 
+<br> Enter the name of the product you would like to search for:
+	<br>
+	<input type="text" id="myInput" onkeyup="refineSearch()"
+		placeholder="Search for product" title="Search for product">
 
 	<table id="productTable" align="center" cellpadding="5" cellspacing="5"
 		border="1">
@@ -51,13 +55,34 @@
 		<tr bgcolor="#DEB887">
 		
 			<td><%=items.get(i).getSku()%></td>
-			<td><a href="viewProduct.jsp?id=<%=items.get(i).getSku()%>"><%=items.get(i).getName()%></a></td>
+			<td><a href="viewProduct.jsp?id=<%=items.get(i).getSku()%>&mode=redirect';"><%=items.get(i).getName()%></a></td>
 			<td><%=items.get(i).getManufacturer()%></td>
 			<td><%=items.get(i).getPrice()%></td>
 			<td><%=items.get(i).getCategory()%></td>
-			<td><img src="C:/Users/whitec/Desktop/spAssets/<%=items.get(i).getImagePath() %>" style="width:150px;height:150px;"></td> 
+			<td><img src="/SPassignment/spAssets/<%=items.get(i).getImagePath() %>" style="width:150px;height:150px;"></td> 
 		</tr>
 <%}%>
 	</table>
+	
+	<script>
+		function refineSearch() {
+			var input, filter, table, tr, td, i, txtValue;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("productTable");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <%@ page import="Controllers.ItemDAO"%>
 <%@ page import="Models.Items"%>
 
-<a href="cart.jsp">My Cart </a>
+<a href="/SPassignment/View/cart.jsp?mode=redirect">My Cart</a>
 </div>
 </div>
 
@@ -15,7 +15,7 @@
 
 <title>View Product</title>
 
-<img src="C:/Users/whitec/Desktop/spAssets/<%=item.getImagePath()%>"
+<img src="/SPassignment/spAssets/<%=item.getImagePath()%>"
 	style="width: 250px; height: 300px;">
 
 
@@ -33,17 +33,21 @@
 	&euro;<%=item.getPrice()%>
 
 </div>
-<button type="submit" name="add-to-cart" value="23908"
-	class="single_add_to_cart_button button alt" onClick="updateCart()">Add
-	to basket</button>
+<a
+		href="/SPassignment/View/viewProduct.jsp?id=<%=item.getSku()%>&mode=Add">
+		Add to basket</a>
 
 
-<script type="text/javascript">
+
+<script>
 	function updateCart() {
-<%fb.updateCart(item, session);%>
+<%String mode = request.getParameter("mode");
+			if (mode.equals("Add")) {
+				fb.updateCart(item, session);
+				response.sendRedirect(request.getContextPath() + "/View/viewProduct.jsp?id=" + item.getSku() + "&mode=redirect");
+			}%>
 	}
 </script>
 <!--
 
 //-->
-</script>

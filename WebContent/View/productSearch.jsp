@@ -52,7 +52,7 @@
 			<td><%=items.get(i).getPrice()%></td>
 			<td><%=items.get(i).getCategory()%></td>
 			<td><img
-				src="C:/Users/whitec/Desktop/spAssets/<%=items.get(i).getImagePath()%>"
+				src="/SPassignment/spAssets/<%=items.get(i).getImagePath()%>"
 				style="width: 150px; height: 150px;"></td>
 			<td><button
 					onclick="window.location.href = '/SPassignment/View/updateProduct.jsp?id=<%=items.get(i).getSku()%>&mode=redirect';">Update

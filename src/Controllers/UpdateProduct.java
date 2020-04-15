@@ -54,7 +54,7 @@ public class UpdateProduct extends HttpServlet {
 
 		i.updateItem(id, name, manu, price, category, stock, image_path);
 
-		response.sendRedirect(request.getContextPath() + "/productSearch.jsp");
+		response.sendRedirect(request.getContextPath() + "/View/productSearch.jsp");
 
 	}
 

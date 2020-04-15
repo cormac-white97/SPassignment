@@ -51,10 +51,8 @@
 			<td><a href=""><%=users.get(i).getName()%></a></td>
 			<td><%=users.get(i).getEmail()%></td>
 			<td><%=users.get(i).getAddress()%></td>
-			<td><button
-					onclick="window.location.href = 'updateCustomer.jsp?id=<%=users.get(i).getId()%>';">Update
-					Details</button></td>
-
+			<td><a href = '/SPassignment/View/updateCustomer.jsp?id=<%=users.get(i).getId()%>&mode='redirect';"> Update
+					Details</a></td>
 		</tr>
 		<%
 			}

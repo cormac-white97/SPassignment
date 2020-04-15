@@ -40,7 +40,7 @@
 	<script>
 		function deleteItem() {
 	<%String mode = request.getParameter("mode");
-			if (request.getParameter("mode").equals("Delete")) {
+			if (mode.equals("Delete")) {
 				fb.delete(id);
 				response.sendRedirect(request.getContextPath() + "/View/productSearch.jsp");
 			}%>

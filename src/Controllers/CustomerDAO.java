@@ -70,7 +70,16 @@ public class CustomerDAO implements SqlFactory {
 
 	@Override
 	public void updateUser(int id, String name, String email, String address) {
-		// TODO Auto-generated method stub
+		try {
+			Statement statement = connection.createStatement();
+			String sqlStatement = "UPDATE users" + " SET name = '" + name + "' ,email = '" + email + "', address = '" + address + "' WHERE id = " + id + ";";
+
+			statement.executeUpdate(sqlStatement);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 			
 	}
 
