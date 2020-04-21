@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class UpdateCustomer
@@ -36,15 +37,17 @@ public class UpdateCustomer extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		HttpSession session = request.getSession(false);
+
 		
-		CustomerDAO i = new CustomerDAO();
+		DaoFacade i = new DaoFacade();
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		String address = request.getParameter("address");
 
 
-		i.updateUser(id, name, email, address);
+		i.update("customer", id, name, email, address, "", 0.0, "", 0, "", response, session, null);
 
 		response.sendRedirect(request.getContextPath() + "/View/viewCustomers.jsp");
 		

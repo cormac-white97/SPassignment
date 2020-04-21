@@ -1,12 +1,3 @@
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="Controllers.ItemDAO"%>
-<%@ page import="Models.Items"%>
-
-<%
-	//ItemDAO fb = new ItemDAO();
-	//Items item = fb.readItem(id);
-%>
-
 <title>Add a product</title>
 
 

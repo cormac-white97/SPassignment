@@ -2,9 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="Controllers.CustomerDAO"%>
+<%@ page import="Controllers.DaoFacade"%>
 <%@ page import="Models.Users"%>
-<%@ page import="Controllers.Landing"%>
 
 
 
@@ -17,9 +16,9 @@
 </head>
 <body onLoad="document.forms[0].submit()">
 	<%
-		CustomerDAO cd = new CustomerDAO();
+		DaoFacade df = new DaoFacade();
 
-		ArrayList<Users> users = cd.readAllUsers();
+		ArrayList<Users> users = (ArrayList<Users>) df.readObject("customerAll", 0, response);
 
 		session = request.getSession(false);
 	%>
@@ -48,11 +47,15 @@
 		<tr bgcolor="#DEB887">
 
 			<td><%=users.get(i).getId()%></td>
-			<td><a href=""><%=users.get(i).getName()%></a></td>
+			<td><%=users.get(i).getName()%></td>
 			<td><%=users.get(i).getEmail()%></td>
 			<td><%=users.get(i).getAddress()%></td>
-			<td><a href = '/SPassignment/View/updateCustomer.jsp?id=<%=users.get(i).getId()%>&mode='redirect';"> Update
-					Details</a></td>
+			<td><a
+				href='/SPassignment/View/updateCustomer.jsp?id=<%=users.get(i).getId()%>&mode='redirect';">
+					Update Details</a></td>
+			<td><a
+				href='/SPassignment/View/OrderHistory.jsp?id=<%=users.get(i).getId()%>';">
+					Order History</a></td>
 		</tr>
 		<%
 			}

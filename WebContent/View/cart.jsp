@@ -1,5 +1,5 @@
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="Controllers.CustomerDAO"%>
+<%@ page import="Controllers.DaoFacade"%>
 <%@ page import="Controllers.Buy"%>
 <%@ page import="java.util.ArrayList"%>
 
@@ -11,8 +11,8 @@
 	ArrayList<Items> cart = (ArrayList<Items>) session.getAttribute("cart");
 
 	int id = (int) session.getAttribute("id");
-	CustomerDAO fb = new CustomerDAO();
-	Users user = fb.readIndividual(id);
+	DaoFacade df = new DaoFacade();
+	Users user =  (Users) df.readObject("customerIndiv", id, response);
 	Buy b = new Buy();
 %>
 
@@ -28,7 +28,6 @@
 			<td><b>Price</b></td>
 			<td><b>Category</b></td>
 			<td><b>Image</b></td>
-			<td><b>Quantity</b></td>
 
 		</tr>
 
@@ -45,7 +44,6 @@
 			<td><img
 				src="/SPassignment/spAssets/<%=cart.get(i).getImagePath()%>"
 				style="width: 150px; height: 150px;"></td>
-			<td><input id="number" type="number"></td>
 
 		</tr>
 		<%
@@ -62,8 +60,10 @@
 	<%String mode = request.getParameter("mode");
 			if (mode.equals("purchase")) {
 				int purchaserId = (int) session.getAttribute("id");
-				b.makePayment(cart, purchaserId);
+				b.makePayment(cart, purchaserId, response);
 				response.sendRedirect(request.getContextPath() + "/View/report.jsp");
+				ArrayList<Items> resetCart = new ArrayList<>();
+				session.setAttribute("cart", resetCart);
 			}%>
 		}
 	</script>

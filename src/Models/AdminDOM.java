@@ -1,4 +1,4 @@
-package Controllers;
+package Models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,17 +6,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Models.Items;
-import Models.SqlFactory;
-import Models.Users;
+import javax.servlet.http.HttpServletResponse;
 
-public class AdminDAO implements SqlFactory {
+import Controllers.NullObject;
+
+public class AdminDOM implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
 	String username = "root";
 	String pword = "SQ8wvP5d";
 	Connection connection = null;
+	NullObject no = new NullObject();
 
-	public AdminDAO() {
+	public AdminDOM() {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -35,12 +36,12 @@ public class AdminDAO implements SqlFactory {
 	}
 
 	@Override
-	public void createUser(String name, String email, String password, String address) {
+	public void createUser(String name, String email, String password, String address, HttpServletResponse response) {
 
 		try {
 			Statement statement = connection.createStatement();
-			String sqlStatement = "INSERT INTO users(name, email, password,accountType, address) " + "values('" + name
-					+ "','" + email + "','" + password + "','admin','" + address + "');";
+			String sqlStatement = "INSERT INTO admin(name, email, password, address, accountType) " + "values('" + name
+					+ "','" + email + "','" + password + "',' '" + "'admin');";
 			// insert the data
 
 			statement.executeUpdate(sqlStatement);
@@ -52,12 +53,12 @@ public class AdminDAO implements SqlFactory {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		
 		try {
 			Statement statement = connection.createStatement();
-			String sqlStatement = "DELETE FROM users where id = " + id + ";";
+			String sqlStatement = "DELETE FROM admin where id = " + id + ";";
 
 			statement.executeUpdate(sqlStatement);
 
@@ -69,48 +70,31 @@ public class AdminDAO implements SqlFactory {
 	}
 
 	@Override
-	public void updateUser(int id, String name, String email, String address) {
+	public void updateUser(int id, String name, String email, String address, HttpServletResponse response) {
 		// TODO Auto-generated method stub
+		try {
+			Statement statement = connection.createStatement();
+			String sqlStatement = "UPDATE admin" + " SET name = '" + name + "' ,email = '" + email + "' WHERE id = " + id + ";";
 
+			statement.executeUpdate(sqlStatement);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public Users readIndividual(int id) {
+	public Users readIndividual(int id, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Users> readAllUsers() {
+	public ArrayList<Users> readAllUsers(HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public void createItem(String name, String manu, double price, String category,int stock, String image_path, int createdBy) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-
-	public void updateItem(int id, String name, String manu, double price, String category,int stock, String image_path) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-
-	public Items readItem(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-
-	public ArrayList<Items> readAllItems() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Controllers.CustomerDAO;
+import Models.CustomerDOM;
 
 /**
  * Servlet implementation class WebappClass
@@ -47,7 +47,7 @@ public class CreateAccount extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		
-		CustomerDAO c = new CustomerDAO();
+		DaoFacade c = new DaoFacade();
 		
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
@@ -57,7 +57,7 @@ public class CreateAccount extends HttpServlet {
 		
 	
 		if(pWord.equals(confirm)) {
-					c.createUser(name, email, pWord, address);
+					c.create("Customer", name, email, pWord, address, "", 0.0, "", 0, "", 0, null, 0, response);
 					response.sendRedirect(request.getContextPath() + "/View/index.jsp");
 		}
 

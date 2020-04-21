@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="Controllers.ItemDAO"%>
+<%@ page import="Controllers.DaoFacade"%>
 <%@ page import="Models.Items"%>
 <%@ page import="Controllers.Landing"%>
+<%@ page import="Controllers.NullObject"%>
+
 
 
 
@@ -16,23 +19,32 @@
 </head>
 <body onLoad="document.forms[0].submit()">
 	<%
-		ItemDAO fb = new ItemDAO();
-		ArrayList<Items> items = fb.readAllItems();
-		Landing l = new Landing();
-		String name = l.getUsername();
-		
-		session = request.getSession(false);
+		DaoFacade fb = new DaoFacade();
+		NullObject n = new NullObject();
+			ArrayList<Items> items =(ArrayList<Items>) fb.readObject("itemAll", 0, response);
+			Landing l = new Landing();
+			String name = l.getUsername();
+
+			session = request.getSession(false);
+			
+			if(session.toString().equals(null)){
+				n.redirect(response);
+			}
 	%>
 
-	Session ID : <%= session.getAttribute("name") %>
+	Session ID :
+	<%=session.getAttribute("name")%>
 	<br>
-	
-	<%if(session.getAttribute("accountType").equals("admin")){
-		%>
-		<a href ="Admin.jsp">Admin</a>
-	<%}%>
 
-<br> Enter the name of the product you would like to search for:
+	<%
+		if (session.getAttribute("accountType").equals("admin")) {
+	%>
+	<a href="Admin.jsp">Admin</a>
+	<%
+		}
+	%>
+
+	<br> Enter the name of the product you would like to search for:
 	<br>
 	<input type="text" id="myInput" onkeyup="refineSearch()"
 		placeholder="Search for product" title="Search for product">
@@ -49,21 +61,31 @@
 			<td><b>Price</b></td>
 			<td><b>Category</b></td>
 			<td><b>Image</b></td>
+			<td><b>Stock:</b></td>
 		</tr>
 
-	<%for (int i = 0; i < items.size(); i++){ %>
+		<%
+			for (int i = 0; i < items.size(); i++) {
+		%>
 		<tr bgcolor="#DEB887">
-		
+
 			<td><%=items.get(i).getSku()%></td>
-			<td><a href="viewProduct.jsp?id=<%=items.get(i).getSku()%>&mode=redirect';"><%=items.get(i).getName()%></a></td>
+			<td><a
+				href="viewProduct.jsp?id=<%=items.get(i).getSku()%>&mode=redirect';"><%=items.get(i).getName()%></a></td>
 			<td><%=items.get(i).getManufacturer()%></td>
 			<td><%=items.get(i).getPrice()%></td>
 			<td><%=items.get(i).getCategory()%></td>
-			<td><img src="/SPassignment/spAssets/<%=items.get(i).getImagePath() %>" style="width:150px;height:150px;"></td> 
+			<td><img
+				src="/SPassignment/spAssets/<%=items.get(i).getImagePath()%>"
+				style="width: 150px; height: 150px;"></td>
+			<td><%=items.get(i).getStock()%></td>
+
 		</tr>
-<%}%>
+		<%
+			}
+		%>
 	</table>
-	
+
 	<script>
 		function refineSearch() {
 			var input, filter, table, tr, td, i, txtValue;

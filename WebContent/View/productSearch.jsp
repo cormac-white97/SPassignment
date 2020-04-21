@@ -2,9 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="Controllers.ItemDAO"%>
+<%@ page import="Controllers.DaoFacade"%>
 <%@ page import="Models.Items"%>
-<%@ page import="Controllers.Landing"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -16,11 +15,10 @@
 </head>
 <body>
 	<%
-		ItemDAO itemDao = new ItemDAO();
-		ArrayList<Items> items = itemDao.readAllItems();
-		Landing l = new Landing();
+	DaoFacade df = new DaoFacade();
+			ArrayList<Items> items = (ArrayList<Items>) df.readObject("itemAll", 0, response);
 
-		session = request.getSession(false);
+			session = request.getSession(false);
 	%>
 
 	Session ID :

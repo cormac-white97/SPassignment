@@ -37,8 +37,10 @@ public class AddProduct extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		ItemDAO i = new ItemDAO();
+		DaoFacade i = new DaoFacade();
+		
 		HttpSession session = request.getSession(false);
+		
 		int id = (Integer) session.getAttribute("id");
 		String name = request.getParameter("name");
 		String manu = request.getParameter("manu");
@@ -47,8 +49,7 @@ public class AddProduct extends HttpServlet {
 		String category = request.getParameter("category");
 		String image = request.getParameter("image");
 		
-		i.createItem(name, manu, price, category,stock, image, id);
-		
+		i.create("item", name, "", "", "", manu, price, category, stock, "", 0, null, 0, response);
 		response.sendRedirect(request.getContextPath() + "/View/productSearch.jsp");
 	}
 

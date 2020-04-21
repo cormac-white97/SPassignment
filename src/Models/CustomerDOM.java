@@ -1,4 +1,4 @@
-package Controllers;
+package Models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,19 +7,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Models.Items;
-import Models.SqlFactory;
-import Models.Users;
+import Controllers.NullObject;
 
-public class CustomerDAO implements SqlFactory {
+public class CustomerDOM implements SqlFactory {
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
 	String username = "root";
 	String pword = "SQ8wvP5d";
 	Connection connection;
+	NullObject no = new NullObject();
 
-	public CustomerDAO() {
+	public CustomerDOM() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -36,7 +36,7 @@ public class CustomerDAO implements SqlFactory {
 	}
 
 	@Override
-	public void createUser(String name, String email, String password, String address) {
+	public void createUser(String name, String email, String password, String address, HttpServletResponse response) {
 
 		try {
 			Statement statement = connection.createStatement();
@@ -54,7 +54,7 @@ public class CustomerDAO implements SqlFactory {
 
 	
 	@Override
-	public void delete(int id) {
+	public void delete(int id, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		try {
 			Statement statement = connection.createStatement();
@@ -69,7 +69,7 @@ public class CustomerDAO implements SqlFactory {
 	}
 
 	@Override
-	public void updateUser(int id, String name, String email, String address) {
+	public void updateUser(int id, String name, String email, String address, HttpServletResponse response) {
 		try {
 			Statement statement = connection.createStatement();
 			String sqlStatement = "UPDATE users" + " SET name = '" + name + "' ,email = '" + email + "', address = '" + address + "' WHERE id = " + id + ";";
@@ -84,12 +84,12 @@ public class CustomerDAO implements SqlFactory {
 	}
 
 	@Override
-	public ArrayList<Users> readAllUsers() {
+	public ArrayList<Users> readAllUsers(HttpServletResponse response) {
 		ArrayList<Users> users = new ArrayList<>();
 
 		try {
 			Statement command = connection.createStatement();
-			ResultSet data = command.executeQuery("SELECT * FROM users;");
+			ResultSet data = command.executeQuery("SELECT * FROM users where accountType = 'customer';");
 
 			while (data.next()) {
 				int dbId = data.getInt("id");
@@ -110,7 +110,7 @@ public class CustomerDAO implements SqlFactory {
 	}
 
 	@Override
-	public Users readIndividual(int id) {
+	public Users readIndividual(int id, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		Users user = null;
 
@@ -136,17 +136,6 @@ public class CustomerDAO implements SqlFactory {
 	}
 
 
-	@Override
-	public ArrayList<Items> readAllItems() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Items readItem(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void updateCart(Items item, HttpSession session) {
 		ArrayList<Items> cart = (ArrayList<Items>) session.getAttribute("cart");
@@ -156,17 +145,4 @@ public class CustomerDAO implements SqlFactory {
 		session.setAttribute("cart", cart);
 	}
 
-	@Override
-	public void createItem(String name, String manu, double price, String category, int stock, String image_path,
-			int createdBy) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateItem(int id, String name, String manu, double price, String category, int stock,
-			String image_path) {
-		// TODO Auto-generated method stub
-		
-	}
 }

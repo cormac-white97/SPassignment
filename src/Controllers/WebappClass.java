@@ -23,9 +23,7 @@ import Models.Users;
 public class WebappClass extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private SQLConnection sql = new SQLConnection();
-	
-
+	private DaoFacade sql = new DaoFacade();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -52,37 +50,36 @@ public class WebappClass extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		
-		Users u = sql.getLoggedInDetails(request.getParameter("email")); 
-		
-		int id = u.getId();
-		String dbName = u.getName();
-		String dbAccountType = u.getAccountType();
-		String address = u.getAddress();
-		
-		 boolean signin =
-		 sql.signIn(request.getParameter("email"),request.getParameter("password") );
-		 
-		  ArrayList<Items> cart = new ArrayList<>();
-		  
-		 if(signin == true) { 
-			 HttpSession session = request.getSession();
-			 session.setAttribute("id",id);
-			 session.setAttribute("email", request.getParameter("email"));
-			 session.setAttribute("name", dbName);
-			 session.setAttribute("accountType", dbAccountType);
-			 session.setAttribute("address", address);
-			 session.setAttribute("cart", cart);
-			 
-			 
-//			 PrintWriter writer = response.getWriter();
-//		        writer.println("Session ID: " + session.getId());
-//		        writer.println("Creation Time: " + session.getAttribute("email"));
-			
-			  response.sendRedirect(request.getContextPath() + "/View/report.jsp");
-			 
-			 }
-		 
+
+		NullObject no = new NullObject();
+		Users u = sql.getLoggedInDetails(request.getParameter("email"), response);
+		if (u != null) {
+			int id = u.getId();
+			String dbName = u.getName();
+			String dbAccountType = u.getAccountType();
+			String address = u.getAddress();
+
+			boolean signin = sql.signIn(request.getParameter("email"), request.getParameter("password"));
+
+			ArrayList<Items> cart = new ArrayList<>();
+
+				HttpSession session = request.getSession();
+				session.setAttribute("id", id);
+				session.setAttribute("email", request.getParameter("email"));
+				session.setAttribute("name", dbName);
+				session.setAttribute("accountType", dbAccountType);
+				session.setAttribute("address", address);
+				session.setAttribute("cart", cart);
+
+//				 PrintWriter writer = response.getWriter();
+//			        writer.println("Session ID: " + session.getId());
+//			        writer.println("Creation Time: " + session.getAttribute("email"));
+
+				response.sendRedirect(request.getContextPath() + "/View/report.jsp");
+		}
+		else {
+			no.redirect(response);
+		}
 
 	}
 

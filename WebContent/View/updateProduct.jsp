@@ -1,11 +1,11 @@
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="Controllers.ItemDAO"%>
+<%@ page import="Controllers.DaoFacade"%>
 <%@ page import="Models.Items"%>
 
 <%
 	int id = Integer.parseInt(request.getParameter("id"));
-	ItemDAO fb = new ItemDAO();
-	Items item = fb.readItem(id);
+DaoFacade df = new DaoFacade();
+	Items item = (Items) df.readObject("itemIndiv", id, response);
 %>
 
 <script type="text/javascript" src="Delete.js"></script>
@@ -41,7 +41,7 @@
 		function deleteItem() {
 	<%String mode = request.getParameter("mode");
 			if (mode.equals("Delete")) {
-				fb.delete(id);
+				df.delete("item",id, response);
 				response.sendRedirect(request.getContextPath() + "/View/productSearch.jsp");
 			}%>
 		}

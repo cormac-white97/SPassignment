@@ -1,4 +1,4 @@
-package Controllers;
+package Models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,19 +7,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Models.Items;
-import Models.SqlFactory;
-import Models.Users;
-
-public class ItemDAO implements SqlFactory {
+public class ItemDOM{
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
 	String username = "root";
 	String pword = "SQ8wvP5d";
 	Connection connection = null;
 
-	public ItemDAO() {
+	public ItemDOM() {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -37,16 +34,9 @@ public class ItemDAO implements SqlFactory {
 
 	}
 
-	@Override
-	public void createUser(String name, String email, String password, String address) {
-		// TODO Auto-generated method stub
 
-	}
-
-	@Override
 	public void createItem(String name, String manu, double price, String category, int stock, String image_path,
-			int createdBy) {
-		// TODO Auto-generated method stub
+			int createdBy, HttpServletResponse response) {
 
 		try {
 			Statement statement = connection.createStatement();
@@ -64,9 +54,8 @@ public class ItemDAO implements SqlFactory {
 
 	}
 
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
+
+	public void delete(int id, HttpServletResponse response) {
 		try {
 			Statement statement = connection.createStatement();
 			String sqlStatement = "DELETE FROM items where sku = " + id + ";";
@@ -80,10 +69,9 @@ public class ItemDAO implements SqlFactory {
 
 	}
 
-	@Override
+
 	public void updateItem(int id, String name, String manu, double price, String category, int stock,
-			String image_path) {
-		// TODO Auto-generated method stub
+			String image_path, HttpServletResponse response) {
 
 		try {
 			Statement statement = connection.createStatement();
@@ -105,8 +93,7 @@ public class ItemDAO implements SqlFactory {
 
 		try {
 			Statement statement = connection.createStatement();
-			String sqlStatement = "UPDATE items" + " SET stock = '" + stock
-					+ "' WHERE sku = " + id + ";";
+			String sqlStatement = "UPDATE items" + " SET stock = '" + stock + "' WHERE sku = " + id + ";";
 
 			statement.executeUpdate(sqlStatement);
 
@@ -117,27 +104,7 @@ public class ItemDAO implements SqlFactory {
 
 	}
 
-	@Override
-	public void updateUser(int id, String name, String email, String address) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Users readIndividual(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Users> readAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Items readItem(int id) {
-		// TODO Auto-generated method stub
+	public Items readItem(int id, HttpServletResponse response) {
 		Items item = null;
 		try {
 			Statement command = connection.createStatement();
@@ -162,9 +129,8 @@ public class ItemDAO implements SqlFactory {
 		return item;
 	}
 
-	@Override
-	public ArrayList<Items> readAllItems() {
-		// TODO Auto-generated method stub
+	public ArrayList<Items> readAllItems(HttpServletResponse response) {
+
 		ArrayList<Items> items = new ArrayList<>();
 
 		try {
@@ -200,16 +166,18 @@ public class ItemDAO implements SqlFactory {
 		session.setAttribute("cart", cart);
 	}
 
-	public void createPurchase(Items item, int purchaserId) {
-		int itemId = item.getSku();
+	public void createPurchase(ArrayList<Items> purchasedItems, int purchaserId) {
 		try {
-			Statement statement = connection.createStatement();
-			String sqlStatement = "INSERT INTO Orders(OrderNumber, PersonID) " + "values('" + itemId + "','"
-					+ purchaserId + "');";
+			for (Items item : purchasedItems) {
+				Statement statement = connection.createStatement();
+				String sqlStatement = "INSERT INTO Orders(OrderNumber, PersonID) " + "values('" + item.getSku() + "','"
+						+ purchaserId + "');";
 
-			statement.executeUpdate(sqlStatement);
-			int stock = item.getStock() - 1;
-			updateStock(itemId, stock);
+				statement.executeUpdate(sqlStatement);
+				int stock = item.getStock() - 1;
+				updateStock(item.getSku(), stock);
+
+			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -217,4 +185,33 @@ public class ItemDAO implements SqlFactory {
 		}
 	}
 
+	public ArrayList<Items> getOrderHistory(int userId) {
+		ArrayList<Items> items = new ArrayList<>();
+
+		try {
+			Statement command = connection.createStatement();
+			ResultSet data = command
+					.executeQuery("select * from items where sku in (select OrderNumber from orders where PersonID = "
+							+ userId + ");");
+
+			while (data.next()) {
+				int dbSku = data.getInt("sku");
+				String dbName = data.getString("name");
+				String dbManu = data.getString("manufacturer");
+				double dbPrice = data.getDouble("price");
+				String dbCategory = data.getString("category");
+				int dbStock = data.getInt("stock");
+				String imagePath = data.getString("image_path");
+				String createdBy = data.getString("createdBy");
+
+				Items i = new Items(dbSku, dbName, dbManu, dbPrice, dbCategory, dbStock, imagePath, createdBy);
+				items.add(i);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return items;
+	}
 }

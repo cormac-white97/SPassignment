@@ -1,5 +1,5 @@
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="Controllers.ItemDAO"%>
+<%@ page import="Controllers.DaoFacade"%>
 <%@ page import="Models.Items"%>
 
 <a href="/SPassignment/View/cart.jsp?mode=redirect">My Cart</a>
@@ -8,8 +8,8 @@
 
 <%
 	int id = Integer.parseInt(request.getParameter("id"));
-	ItemDAO fb = new ItemDAO();
-	Items item = fb.readItem(id);
+	DaoFacade df = new DaoFacade();
+	Items item = (Items) df.readObject("itemIndiv", id, response);
 	ArrayList<Items> cart = (ArrayList<Items>) session.getAttribute("cart");
 %>
 
@@ -34,8 +34,8 @@
 
 </div>
 <a
-		href="/SPassignment/View/viewProduct.jsp?id=<%=item.getSku()%>&mode=Add">
-		Add to basket</a>
+	href="/SPassignment/View/viewProduct.jsp?id=<%=item.getSku()%>&mode=Add">
+	Add to basket</a>
 
 
 
@@ -43,8 +43,9 @@
 	function updateCart() {
 <%String mode = request.getParameter("mode");
 			if (mode.equals("Add")) {
-				fb.updateCart(item, session);
-				response.sendRedirect(request.getContextPath() + "/View/viewProduct.jsp?id=" + item.getSku() + "&mode=redirect");
+				df.updateCart(item, session);
+				response.sendRedirect(
+						request.getContextPath() + "/View/viewProduct.jsp?id=" + item.getSku() + "&mode=redirect");
 			}%>
 	}
 </script>

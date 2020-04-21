@@ -6,8 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import Controllers.ItemDAO;
+import Models.ItemDOM;
 
 /**
  * Servlet implementation class UpdateProduct
@@ -42,8 +43,9 @@ public class UpdateProduct extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+		HttpSession session = request.getSession(false);
 
-		ItemDAO i = new ItemDAO();
+		DaoFacade i = new DaoFacade();
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String manu = request.getParameter("manu");
@@ -52,7 +54,7 @@ public class UpdateProduct extends HttpServlet {
 		int stock = Integer.parseInt(request.getParameter("stock"));
 		String image_path = request.getParameter("image");
 
-		i.updateItem(id, name, manu, price, category, stock, image_path);
+		i.update("item", id, name, "", "", manu, price, category, stock, image_path, response, session, null);
 
 		response.sendRedirect(request.getContextPath() + "/View/productSearch.jsp");
 

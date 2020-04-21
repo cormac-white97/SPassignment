@@ -2,6 +2,7 @@ package Controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,35 +19,38 @@ import Models.Items;
 @WebServlet("/View/Buy")
 public class Buy extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Buy() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Buy() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
-	public void makePayment(ArrayList<Items> purchaseItems, Object purchaserId) {
-		int parsedId = (int) purchaserId;
-		ItemDAO i = new ItemDAO();
-		for(Items item: purchaseItems) {
-			i.createPurchase(item,parsedId );
-		}
+	public void makePayment(ArrayList<Items> purchaseItems, int purchaserId, HttpServletResponse response) {
+		DaoFacade i = new DaoFacade();
+
+		i.create("purchase", "", "", "", "", "", 0.0, "", 0, "", 0, purchaseItems, purchaserId, response);
+
 	}
 }
