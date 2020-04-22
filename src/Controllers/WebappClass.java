@@ -59,7 +59,7 @@ public class WebappClass extends HttpServlet {
 			String dbAccountType = u.getAccountType();
 			String address = u.getAddress();
 
-			boolean signin = sql.signIn(request.getParameter("email"), request.getParameter("password"));
+			sql.signIn(request.getParameter("email"), request.getParameter("password"));
 
 			ArrayList<Items> cart = new ArrayList<>();
 

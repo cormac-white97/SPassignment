@@ -67,7 +67,7 @@ public class DaoFacade {
 		boolean found = false;
 		try {
 			Statement command = connection.createStatement();
-			ResultSet data = command.executeQuery("SELECT * FROM users;");
+			ResultSet data = command.executeQuery("select * from admin union select * from users;");
 
 			while (data.next()) {
 				String dbName = data.getString("email");
@@ -87,7 +87,7 @@ public class DaoFacade {
 
 	public void create(String type, String name, String email, String password, String address, String manu,
 			double price, String category, int stock, String image_path, int createdBy, ArrayList<Items> purchaseItems,
-			int purchaserId, HttpServletResponse response) {
+			int purchaserId, int productId, String reviewBody, HttpServletResponse response) {
 
 		if (type.equals("Customer")) {
 			CustomerDOM cd = new CustomerDOM();
@@ -103,6 +103,10 @@ public class DaoFacade {
 			int parsedId = (int) purchaserId;
 			ItemDOM i = new ItemDOM();
 			i.createPurchase(purchaseItems, parsedId);
+		}
+		else if(type.equals("review")) {
+			ItemDOM i = new ItemDOM();
+			i.addReview(productId, purchaserId, reviewBody, response);
 		}
 
 	}
@@ -161,7 +165,16 @@ public class DaoFacade {
 			ItemDOM itemDOM = new ItemDOM();
 			returnObj = itemDOM.getOrderHistory(id);
 		}
+		else if(type.equals("review")) {
+			ItemDOM itemDOM = new ItemDOM();
+			returnObj = itemDOM.getReviews(id, response);
+		}
 
 		return returnObj;
+	}
+
+	public void createReview(int productId, int personId, String reviewBody, HttpServletResponse response) {
+		ItemDOM i = new ItemDOM();
+		i.addReview(productId, personId, reviewBody, response);
 	}
 }

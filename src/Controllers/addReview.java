@@ -8,17 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Models.ItemDOM;
+
 /**
- * Servlet implementation class addProduct
+ * Servlet implementation class addReview
  */
-@WebServlet("/View/addProduct")
-public class AddProduct extends HttpServlet {
+@WebServlet("/View/addReview")
+public class addReview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddProduct() {
+    public addReview() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,21 +38,19 @@ public class AddProduct extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
-		DaoFacade i = new DaoFacade();
-		
+		ItemDOM df = new ItemDOM();
 		HttpSession session = request.getSession(false);
+		int personId = 10;
+		//int personId = (int) session.getAttribute("id");
+
+		String reviewBody = request.getParameter("comment");
+		int productId = Integer.parseInt(request.getParameter("id"));
+
 		
-		int id = (Integer) session.getAttribute("id");
-		String name = request.getParameter("name");
-		String manu = request.getParameter("manu");
-		double price = Double.parseDouble(request.getParameter("price"));
-		int stock = Integer.parseInt(request.getParameter("stock"));
-		String category = request.getParameter("category");
-		String image = request.getParameter("image");
 		
-		i.create("item", name, "", "", "", manu, price, category, stock, image, 0, null, 0, 0, "", response);
-		response.sendRedirect(request.getContextPath() + "/View/productSearch.jsp");
+		df.addReview(productId, personId, reviewBody, response);
+		response.sendRedirect(request.getContextPath() + "/View/report.jsp");
+
 	}
 
 }

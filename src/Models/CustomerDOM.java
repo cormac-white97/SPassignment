@@ -48,7 +48,8 @@ public class CustomerDOM implements SqlFactory {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 	}
 
@@ -64,7 +65,8 @@ public class CustomerDOM implements SqlFactory {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 	}
 
@@ -78,7 +80,8 @@ public class CustomerDOM implements SqlFactory {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 			
 	}
@@ -89,7 +92,7 @@ public class CustomerDOM implements SqlFactory {
 
 		try {
 			Statement command = connection.createStatement();
-			ResultSet data = command.executeQuery("SELECT * FROM users where accountType = 'customer';");
+			ResultSet data = command.executeQuery("SELECT * FROM users;");
 
 			while (data.next()) {
 				int dbId = data.getInt("id");
@@ -103,7 +106,8 @@ public class CustomerDOM implements SqlFactory {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 
 		return users;
@@ -129,7 +133,8 @@ public class CustomerDOM implements SqlFactory {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 
 		return user;

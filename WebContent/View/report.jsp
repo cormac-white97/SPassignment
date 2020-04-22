@@ -4,7 +4,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="Controllers.DaoFacade"%>
 <%@ page import="Models.Items"%>
-<%@ page import="Controllers.Landing"%>
+<%@ page import="Controllers.productState"%>
 <%@ page import="Controllers.NullObject"%>
 
 
@@ -22,8 +22,8 @@
 		DaoFacade fb = new DaoFacade();
 		NullObject n = new NullObject();
 			ArrayList<Items> items =(ArrayList<Items>) fb.readObject("itemAll", 0, response);
-			Landing l = new Landing();
-			String name = l.getUsername();
+			productState ps = new productState();
+			String name = (String) session.getAttribute("name");
 
 			session = request.getSession(false);
 			
@@ -33,7 +33,7 @@
 	%>
 
 	Session ID :
-	<%=session.getAttribute("name")%>
+	<%=session.getAttribute("name")%>  --%>
 	<br>
 
 	<%
@@ -78,7 +78,7 @@
 			<td><img
 				src="/SPassignment/spAssets/<%=items.get(i).getImagePath()%>"
 				style="width: 150px; height: 150px;"></td>
-			<td><%=items.get(i).getStock()%></td>
+			<td><%=ps.checkState("stock", items.get(i).getSku(), response)%></td>
 
 		</tr>
 		<%

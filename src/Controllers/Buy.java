@@ -50,7 +50,7 @@ public class Buy extends HttpServlet {
 	public void makePayment(ArrayList<Items> purchaseItems, int purchaserId, HttpServletResponse response) {
 		DaoFacade i = new DaoFacade();
 
-		i.create("purchase", "", "", "", "", "", 0.0, "", 0, "", 0, purchaseItems, purchaserId, response);
+		i.create("purchase", "", "", "", "", "", 0.0, "", 0, "", 0, purchaseItems, purchaserId, 0, "" , response);
 
 	}
 }

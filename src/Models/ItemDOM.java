@@ -6,9 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import Controllers.NullObject;
 
 public class ItemDOM{
 	String connectionString = "jdbc:mysql://localhost:3306/spassignment";
@@ -49,7 +52,8 @@ public class ItemDOM{
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 
 	}
@@ -64,7 +68,8 @@ public class ItemDOM{
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 
 	}
@@ -83,7 +88,8 @@ public class ItemDOM{
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 
 	}
@@ -99,7 +105,7 @@ public class ItemDOM{
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
 
 	}
@@ -124,7 +130,8 @@ public class ItemDOM{
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 		return item;
 	}
@@ -152,7 +159,8 @@ public class ItemDOM{
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NullObject no = new NullObject();
+			no.redirect(response);
 		}
 
 		return items;
@@ -213,5 +221,46 @@ public class ItemDOM{
 		}
 
 		return items;
+	}
+
+	public void addReview(int productId, int personId, String reviewBody, HttpServletResponse response) {
+		try {
+			Statement statement = connection.createStatement();
+			String sqlStatement = "INSERT INTO productReview(productId, personId, reviewBody)"
+					+ "values(" + productId + "," + personId + ",'" + reviewBody + "');";
+			// insert the data
+
+			statement.executeUpdate(sqlStatement);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			NullObject no = new NullObject();
+			no.redirect(response);
+		}
+
+	}
+	
+	public ArrayList<String> getReviews(int id, HttpServletResponse response){
+		ArrayList<String> reviewList = new ArrayList<>();
+		
+		try {
+			Statement command = connection.createStatement();
+			ResultSet data = command
+					.executeQuery("SELECT reviewBody, productId FROM productReview WHERE productId = " + id + ";");
+
+			while (data.next()) {
+				String resultBody = data.getString("reviewBody");
+				int productId = data.getInt("productId");
+
+
+				reviewList.add(resultBody);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+
+		}
+		
+		
+		return reviewList;
 	}
 }
